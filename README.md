@@ -9,12 +9,22 @@ Recently, interpreting charts with complex and logical reasoning have emerged as
 <img src="assets/architecture.png" width="100%"></img> 
 
 ## Environment
-We conduct enviroments with the following packages
+
+You can choose one of the two codes to configure the environment used during the experiments.
+
+**[Option 1]** 
+```bash
+conda create -n Simplot python=3.8 
+conda activate Simplot 
+pip install -r requirements.txt
 ```
 
+**[Option 2]**
+```bash
+conda env create -f Simplot.yaml
 ```
 
-We provide whole conda environment used during the experiments in ``Simplot.yaml``.
+
 
 ## Training
 
