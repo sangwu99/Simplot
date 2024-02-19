@@ -30,9 +30,15 @@ conda env create -f Simplot.yaml
 
 ### Dataset Preparation
 
-You can download the dataset from following github repository: [huggingface repository](https://huggingface.co/datasets/ahmed-masry/ChartQA)
+You can download the dataset from following github repository: [huggingface repository](https://huggingface.co/datasets/ahmed-masry/ChartQA).
 
-Another component used for training and inference of Simplot can be downloaded through the following Google Drive link. [Google drive link]().
+Another component used for training and experimentation can be downloaded and preprocessed through the following code.
+
+```bash
+cd data/ 
+unzip test.zip
+python preprocess.py
+```
 
 And set the directory as follows:
 
@@ -60,12 +66,12 @@ data/
 ```
 ### Phase 1:
 
-```
+```python
 python main.py --phase 1
 ```
 ### Phase 2:
 
-```
+```python
 python main.py --phase 2 --state_path './state/phase_1_best_model.pth' --lr 1e-5 
 ```
 
@@ -77,12 +83,12 @@ After training step, the python code will automatically save the checkpoints in 
 
 ### Evaluate RD
 
-```
+```python
 python inference.py
 ```
 
 ### ChartQA
 
-```
+```python
 python QA.py --api_key 'your api key' --qa_type 'human or augmented' --prompt 'Simplot or Simplot++'
 ```
