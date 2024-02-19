@@ -37,6 +37,7 @@ Another component used for training and experimentation can be downloaded and pr
 ```bash
 cd data/ 
 unzip test.zip
+cd ..
 python preprocess.py
 ```
 
