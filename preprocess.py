@@ -19,8 +19,8 @@ def main(args):
         index_path = f'./data/{task}/indexes'
         column_path = f'./data/{task}/columns'
         
-        positive_path = f'./dataset/{task}/positive_png'
-        negative_path = f'./dataset/{task}/negative_png'
+        positive_path = f'./data/{task}/positive_png'
+        negative_path = f'./data/{task}/negative_png'
         
         os.makedirs(index_path, exist_ok=True)
         os.makedirs(column_path, exist_ok=True)
@@ -29,8 +29,14 @@ def main(args):
         os.makedirs(negative_path, exist_ok=True)
         
         for table in tqdm(table_list):
-            extract_column_row(table, column_path, index_path, table_base_path)
-            generate_simple_chart(table, table_base_path, json_path, positive_path, negative_path)
+            try:
+                extract_column_row(table, column_path, index_path, table_base_path)
+            except:
+                pass 
+            try:
+                generate_simple_chart(table, table_base_path, json_path, positive_path, negative_path)
+            except:
+                pass
             
         
         
@@ -38,7 +44,7 @@ def main(args):
     
     
     
-if '__name__' == '__main__':
+if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     
     parser.add_argument('--tasks', type=str, default = '["train","val"]')
