@@ -10,20 +10,13 @@ Recently, interpreting charts with complex and logical reasoning have emerged as
 
 ## Environment
 
-You can choose one of the two codes to configure the environment used during the experiments.
+You can configure the environment used during the experiments by entering the following code.
 
-**[Option 1]** 
 ```bash
 conda create -n Simplot python=3.8 
 conda activate Simplot 
 pip install -r requirements.txt
 ```
-
-**[Option 2]**
-```bash
-conda env create -f Simplot.yaml
-```
-
 
 
 ## Training
