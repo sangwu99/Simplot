@@ -83,7 +83,7 @@ if __name__ == "__main__":
     parser.add_argument('--epochs', type=int, default=10)
     parser.add_argument('--batch_size', type=int, default=2)
     parser.add_argument('--phase', type=int, default=1)
-    parser.add_argument('--lr', type=float, default=0.01)
+    parser.add_argument('--lr', type=float, default=0.0001)
     parser.add_argument('--lambda_', type=float, default=0.9)
     parser.add_argument('--margin', type=float, default=0)
     parser.add_argument('--seed', type=int, default=42)
