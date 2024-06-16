@@ -1,6 +1,6 @@
 # Simplot
 
-The official source code for **SIMPLOT: Enhancing Chart Question Answering by Distilling Essentials**, submitted to ARR 2024 Feburary.
+The official source code for **SIMPLOT: Enhancing Chart Question Answering by Distilling Essentials**, submitted to ARR 2024 June.
 
 
 ## Overview
