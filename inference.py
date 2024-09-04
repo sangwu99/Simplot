@@ -9,7 +9,7 @@ from transformers import Pix2StructProcessor
 
 from model import Simplot
 from trainer import inference
-from dataset import prepare_test_dataset, SimplotDataset, test_collator
+from dataset import prepare_test_dataset, SimplotDataset, SimplotOpencqaDataset, test_collator
 
 def main(args):
     os.environ["TOKENIZERS_PARALLELISM"] = "false"
@@ -26,7 +26,11 @@ def main(args):
     model = Simplot(args)
 
     dataset = prepare_test_dataset(args)
-    test_dataset = SimplotDataset(dataset, processor, args.phase)
+    
+    if args.inference_type == 'QA':
+        test_dataset = SimplotDataset(dataset, processor, args.phase)
+    else:
+        test_dataset = SimplotDataset(dataset, processor, 4)
     
     checkpoint = torch.load(args.state_path, map_location='cpu')
     model.load_state_dict(checkpoint['model_state_dict'])
@@ -56,6 +60,7 @@ if __name__ == "__main__":
     parser.add_argument('--result_path', type=str, default='./result/')
     parser.add_argument('--tau', type=float, default=1)
     parser.add_argument('--theta', type=float, default=0.5)
+    parser.add_argument('--inference_type', type=str, default='QA')
     
     args = parser.parse_args()
     

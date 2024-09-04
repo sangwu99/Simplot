@@ -69,8 +69,6 @@ python main.py --phase 1
 python main.py --phase 2 --state_path './state/phase_1_best_model.pth' --lr 1e-5 
 ```
 
-
-
 ## Inference
 
 After training step, the python code will automatically save the checkpoints in `./state/`. With the saved checkpoints, you can evaluate RD and test ChartQA. 
@@ -84,5 +82,48 @@ python inference.py
 ### ChartQA
 
 ```python
-python QA.py --api_key 'your api key' --qa_type 'human or augmented' --prompt 'Simplot or Simplot++'
+python QA.py --api_key 'your api key' --qa_type 'human or augmented' 
+```
+
+## OpenCQA
+
+### Dataset Preparation
+
+You can download the opencqa dataset from following github repository: [github repository](https://github.com/vis-nlp/OpenCQA).
+
+Another component used for experimentation can be downloaded and preprocessed through the following code (You can use a previously trained model without any additional training).
+
+```bash
+cd data/opencqa/test/
+unzip test.zip
+cd ../../../
+python preprocess_opencqa.py
+```
+
+And set the directory as follows:
+
+```
+data/
+├── opencqa                   
+│   ├── baseline_models      
+│   ├── bboxes
+│   ├── chart_images      
+│   ├── ...         
+│   └── test  
+│   │   ├── gpt_columns           # GPT-Extracted Columns Folder
+│   │   ├── gpt_indexes           # GPT-Extracted Indexes Folder
+│   │   │── img
+```
+
+### Inference 
+
+
+```python
+python inference.py --img_path './data/opencqa/test/img/' --row_path './data/opencqa/test/gpt_indexes/' --col_path './data/opencqa/test/gpt_columns/' --inference_type 'opencqa/'
+```
+
+### Open-ended Question Answering 
+
+```python
+python opencqa.py --api_key 'your api key' 
 ```

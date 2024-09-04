@@ -29,17 +29,25 @@ class SimplotDataset(Dataset):
         encoding['image'] = item['image']
         encoding['render'] = text
         encoding['processor'] = self.processor
-        encoding['text'] = item['text']
 
         if self.phase == 1:
+            encoding['text'] = item['text']
             return encoding
+        
         elif self.phase == 2:
+            encoding['text'] = item['text']
             encoding['positive_image'] = item['positive_image']
             encoding['negative_image'] = item['negative_image']
             return encoding
+        
+        elif self.phase == 4:
+            return encoding
+        
         else:
+            encoding['text'] = item['text']
             encoding['type'] = item['type']
             return encoding
+        
         
 def phase_1_collator(batch):
     new_batch = {"flattened_patches":[], 
@@ -274,16 +282,20 @@ def prepare_test_dataset(args):
     dataset = []
     
     img_path = args.img_path
-    table_path = args.table_path
     row_path = args.row_path
     col_path = args.col_path
-    json_path = args.json_path
     
     img_list = sorted(os.listdir(img_path))
+    
+    if args.inference_type == 'QA':
+        table_path = args.table_path
+        json_path = args.json_path
+
     for img in tqdm(img_list):
         try: 
-            with open(os.path.join(json_path, img[:-3] + 'json')) as f:
-                data_json = json.load(f)
+            if args.inference_type == 'QA':
+                with open(os.path.join(json_path, img[:-3] + 'json')) as f:
+                    data_json = json.load(f)
             
                 text = pd.read_csv(os.path.join(table_path, img[:-3]+'csv'), header = None)
                 text = get_table(text)
@@ -301,6 +313,19 @@ def prepare_test_dataset(args):
                                 'row' : row,
                                 'col' : col,
                                 'type' : data_json['type'],
+                                'img_name' : img})
+            else:
+                row = pd.read_csv(os.path.join(row_path, img[:-3]+'csv'))
+                row.columns = [0]
+                row = rlstrip_4_index(row)
+                
+                col = pd.read_csv(os.path.join(col_path, img[:-3]+'csv'))
+                col.columns = [0]
+                col = rlstrip_4_index(col)
+                
+                dataset.append({'image': os.path.join(img_path,img),
+                                'row' : row,
+                                'col' : col,
                                 'img_name' : img})
         except:
             pass

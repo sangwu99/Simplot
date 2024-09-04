@@ -100,25 +100,43 @@ def train(args, model, train_dataloader, test_dataloader, optimizer, scheduler, 
     print(f"Best model saved with test loss {best_test_loss} at epoch {best_epoch}")
 
 def inference(args, model, dataset, dataloader, processor, device):
-    accuracy_list = {'img':[], 'type':[], 'pred':[], 'label':[]}
-
-    for idx, batch in enumerate(dataloader):
-        labels = batch.pop("labels").to(device)
-        flattened_patches = batch.pop("flattened_patches").to(device)
-        attention_mask = batch.pop("attention_mask").to(device)
-        chart_type = batch.pop("type")
-        
-        predictions = model.generate(flattened_patches= flattened_patches,
-                                    attention_mask=attention_mask,)    
-        pred = processor.batch_decode(predictions, skip_special_tokens=True)
-        label = processor.batch_decode(labels, skip_special_tokens=True)
-        
-        accuracy_list['img'].append(dataset[idx]['img_name'])
-        accuracy_list['type'].append(chart_type[0])
-        accuracy_list['pred'].append(pred[0])
-        accuracy_list['label'].append(label[0])
-
-    result_df = pd.DataFrame(accuracy_list)
     
-    rd_df, failed = get_rd(result_df)
-    rd_df.to_csv(os.path.join(args.result_path, 'prediction.csv'))
+    if args.inference_type == 'QA':
+        accuracy_list = {'img':[], 'type':[], 'pred':[], 'label':[]}
+
+        for idx, batch in enumerate(dataloader):
+            labels = batch.pop("labels").to(device)
+            flattened_patches = batch.pop("flattened_patches").to(device)
+            attention_mask = batch.pop("attention_mask").to(device)
+            chart_type = batch.pop("type")
+            
+            predictions = model.generate(flattened_patches= flattened_patches,
+                                        attention_mask=attention_mask,)    
+            pred = processor.batch_decode(predictions, skip_special_tokens=True)
+            label = processor.batch_decode(labels, skip_special_tokens=True)
+            
+            accuracy_list['img'].append(dataset[idx]['img_name'])
+            accuracy_list['type'].append(chart_type[0])
+            accuracy_list['pred'].append(pred[0])
+            accuracy_list['label'].append(label[0])
+
+        result_df = pd.DataFrame(accuracy_list)
+        
+        rd_df, failed = get_rd(result_df)
+        rd_df.to_csv(os.path.join(args.result_path, 'prediction.csv'))
+    
+    else:
+        accuracy_list = {'img':[], 'pred':[]}
+        for idx, batch in enumerate(sample_dataloader):
+            flattened_patches = batch.pop("flattened_patches").to(device)
+            attention_mask = batch.pop("attention_mask").to(device)
+            
+            predictions = model.generate(flattened_patches= flattened_patches,
+                                        attention_mask=attention_mask)    
+            pred = processor.batch_decode(predictions, skip_special_tokens=True)
+            
+            accuracy_list['img'].append(dataset[idx]['img_name'])
+            accuracy_list['pred'].append(pred[0])
+            
+        result_df = pd.DataFrame(accuracy_list)
+        result_df.to_csv(os.path.join(args.result_path, 'opencqa_prediction.csv'))

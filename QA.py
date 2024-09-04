@@ -49,7 +49,6 @@ if __name__ == "__main__":
     parser.add_argument('--img_path', type=str, default='./data/test/png/', help='Path to chart images')
     parser.add_argument('--json_path', type=str, default='./data/test/annotations/', help='Path to json files')
     
-    parser.add_argument('--prompt', type=str, default='Simplot', help='Prompt type')
     parser.add_argument('--temperature', type=float, default=0.1, help='Temperature')
     parser.add_argument('--api_key', type=str, default='', help='Your OpenAI API key')
     

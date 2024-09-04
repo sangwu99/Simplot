@@ -1,6 +1,7 @@
 
 import re
 import json
+import sacrebleu
 
 def pred_to_md(pred):
     pred = pred.split('<0x0A>')
@@ -97,3 +98,12 @@ def calculate_QA(df):
             error_list.append(i)
     return df, error_list
 
+
+def get_bleu(row):
+    return sacrebleu.sentence_bleu(row['answer'],[row['ground_truth']], lowercase=True).score
+
+def calculate_BLEU(df):
+    df['bleu'] = df.apply(get_bleu, axis=1)
+    print(f'\nBLEU: {result_df["bleu"].mean()}')
+
+    return df
