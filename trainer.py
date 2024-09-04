@@ -127,7 +127,7 @@ def inference(args, model, dataset, dataloader, processor, device):
     
     else:
         accuracy_list = {'img':[], 'pred':[]}
-        for idx, batch in enumerate(sample_dataloader):
+        for idx, batch in enumerate(dataloader):
             flattened_patches = batch.pop("flattened_patches").to(device)
             attention_mask = batch.pop("attention_mask").to(device)
             
@@ -140,3 +140,4 @@ def inference(args, model, dataset, dataloader, processor, device):
             
         result_df = pd.DataFrame(accuracy_list)
         result_df.to_csv(os.path.join(args.result_path, 'opencqa_prediction.csv'))
+        
