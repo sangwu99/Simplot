@@ -127,3 +127,25 @@ python inference.py --img_path './data/opencqa/test/img/' --row_path './data/ope
 ```python
 python opencqa.py --api_key 'your api key' 
 ```
+
+## Unichart 
+
+### Phase 1:
+
+```python
+python unichart/unichart_phase1.py
+```
+### Phase 2:
+
+```python
+python unichart/unichart_phase2.py
+```
+
+### Inference
+
+You can obtain predicted.csv through the following code, and if you input it as an argument in the above QA code, you can proceed with the QA process.
+
+```python
+python unichart/unichart_inference.py
+```
+
