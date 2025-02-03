@@ -1,6 +1,6 @@
-# Simplot
+# SIMPLOT: Enhancing Chart Question Answering by Distilling Essentials
 
-The official source code for **SIMPLOT: Enhancing Chart Question Answering by Distilling Essentials**
+The official source code for [**SIMPLOT: Enhancing Chart Question Answering by Distilling Essentials**](https://arxiv.org/abs/2405.00021), accepted at NAACL 2025 (Findings).
 
 
 ## Overview
